@@ -1,0 +1,38 @@
+exportClasses(igvNgl)
+
+exportMethods (
+   buildMultiModelGraph,
+   addGeneModelLayout,
+   ping,
+   raiseTab,
+   getSelection,
+   setGenome,
+   setGraph,
+   setStyle,
+   showGenomicRegion,
+   getGenomicRegion,
+   selectNodes,
+   getSelectedNodes,
+   fit,
+   fitSelected,
+   getTrackNames,
+   removeTracksByName,
+   addBedTrackFromDataFrame,
+   addBedTrackFromHostedFile,
+   addBedGraphTrackFromDataFrame,
+   displayPDB
+   )
+
+export(
+   igvNgl
+   )
+
+importClassesFrom(methods, character, integer)
+importFrom(methods, new)
+
+import(BrowserViz)
+import(BiocGenerics)
+import(httpuv)
+import(jsonlite)
+import(Rcpp)
+import(graph)

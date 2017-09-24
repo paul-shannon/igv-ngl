@@ -1,0 +1,51 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="http://igv.org/web/release/1.0.9/igv-1.0.9.js"></script>
+  <script src='https://cdn.rawgit.com/arose/ngl/v0.10.3/dist/ngl.js'></script>
+  <link rel="stylesheet" type="text/css" href="http://igv.org/web/release/1.0.9/igv-1.0.9.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
+
+<script>
+m4_changequote()
+m4_include(bundle.js)
+</script>
+</head>
+
+<body>
+<div id="igvNglTabs">
+  <ul>
+    <li><a href="#igvTab">IGV</a></li>
+    <li><a href="#nglTab">3D</a></li>
+    <li><a href="#cyTab">TRN</a></li>
+  </ul>
+
+  <div id="cyTab">
+     <div id="cyMenubarDiv">
+         <button id='cyFitButton' class="cyMenuButton">Fit</button>
+         <button id='cyFitSelectedButton'class="cyMenuButton">Fit Selected</button>
+         <button id='cySFNButton' class="cyMenuButton">SFN</button>
+         <button id='cyHideUnselectedButton' class="cyMenuButton">Hide Unselected</button>
+         <button id='cyShowAllButton' class="cyMenuButton">Show All</button>
+         <button id='cyCycleThroughModelsButton' class="cyMenuButton">Cycle Models</button>
+     </div>
+     <div id="cyDiv"></div>
+  </div>
+
+  <div id="igvTab">
+     <div id="igvDiv"> </div>
+  </div>
+
+  <div id="nglTab">
+    <div id="nglOuterDiv">
+      <div id="nglViewport"> </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
+
