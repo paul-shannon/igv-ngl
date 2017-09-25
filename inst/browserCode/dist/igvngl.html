@@ -30011,7 +30011,7 @@ exports = module.exports = __webpack_require__(6)(undefined);
 
 
 // module
-exports.push([module.i, "#nglOuterDiv{\n   margin-left: auto;\n   margin-right: auto;\n   margin-top: auto;\n   margin-bottom: auto;\n   border-style: solid;\n   border-width: 3px;\n   border-color: red;\n   border-radius: 5px;\n   }\n\n#nglTab{\n  padding: 0;\n  margin-top: 5px;\n  margin-left: auto;\n  margin-right: auto;\n\n  border-style: solid;\n  border-width: 3px;\n  border-color: darkgreen;\n  border-radius: 5px;\n\n  }\n\n#nglViewport{\n  overflow: hidden;\n  width: 100%;\n  height: 100%;\n\n  border-style: solid;\n  border-width: 3px;\n  border-color: lightblue;\n  border-radius: 5px;\n\n\n  }\n\n", ""]);
+exports.push([module.i, "#nglOuterDiv{\n   margin-left: auto;\n   margin-right: auto;\n   margin-top: auto;\n   margin-bottom: auto;\n   border-style: solid;\n   border-width: 0px;\n   border-color: red;\n   border-radius: 5px;\n   }\n\n#nglTab{\n  padding: 0;\n  margin-top: 5px;\n  margin-left: auto;\n  margin-right: auto;\n\n  border-style: solid;\n  border-width: 0px;\n  border-color: darkgreen;\n  border-radius: 5px;\n\n  }\n\n#nglViewport{\n  overflow: hidden;\n  width: 100%;\n  height: 100%;\n\n  border-style: solid;\n  border-width: 0px;\n  border-color: lightblue;\n  border-radius: 5px;\n\n\n  }\n\n", ""]);
 
 // exports
 
@@ -31753,15 +31753,18 @@ function handleWindowResize ()
    self = this;
    //checkSignature(self, "handleWindowResize");   why fail?
 
-  $("#igvNglTabs").width(window.innerWidth - 40)
-  $("#igvNglTabs").height(window.innerHeight - 40);
+  $("#igvNglTabs").height(window.innerHeight - 50);
+  $("#igvNglTabs").width(window.innerWidth - 50);
 
-  $("#nglTab").width($("#igvNglTabs").width() - 20);
-  $("#nglTab").height($("#igvNglTabs").height() - $(".ui-tabs-nav").height());
+  $("#nglTab").width($("#igvNglTabs").width() - 10);
+  var tabButtonsTopAllowance = $(".ui-tabs-nav").height() + 10;
+  $("#nglTab").height($("#igvNglTabs").height() - tabButtonsTopAllowance);
 
-  $("#nglOuterDiv").width(0.95 * $("#nglTab").width());
-  $("#nglOuterDiv").height(0.95 * $("#nglTab").height());
+  $("#nglOuterDiv").width(1.0 * $("#nglTab").width());
+  $("#nglOuterDiv").height($("#nglTab").height());
 
+  $("#nglViewport").width($("#nglOuterDiv").width() - 2);
+  $("#nglViewport").height($("#nglOuterDiv").height() - 2);
   // window.nglStage.handleResize();
 
   //window.nglStage.handleResize();
@@ -31811,6 +31814,8 @@ function setGenome(msg)
    var self = this;
    checkSignature(self, "setGenome")
 
+   $('a[href="#igvTab"]').click();
+
    var supportedGenomes = ["hg19", "hg38", "mm10"];
    var genomeName = msg.payload;
    var returnPayload = "";
@@ -31822,7 +31827,6 @@ function setGenome(msg)
       hub.send(return_msg);
       } // if unsupported genome
 
-    $('a[href="#igvOuterDiv"]').click();
     setTimeout(function(){self.igvBrowser = initializeIGV(self, genomeName);}, 0);
     self.hub.send({cmd: msg.callback, status: "success", callback: "", payload: ""});
 
@@ -32372,7 +32376,7 @@ function displayPDB(msg)
    $('a[href="#nglTab"]').click();
 
    console.log("--- displayPDB");
-   $("#nglViewport").height($("#nglOuterDiv").width());
+   $("#nglViewport").height($("#nglOuterDiv").height());
 
    window.nglStage = new NGL.Stage("nglViewport");
    window.nglStage.handleResize();

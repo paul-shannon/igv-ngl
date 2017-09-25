@@ -96,15 +96,18 @@ function handleWindowResize ()
    self = this;
    //checkSignature(self, "handleWindowResize");   why fail?
 
-  $("#igvNglTabs").width(window.innerWidth - 40)
-  $("#igvNglTabs").height(window.innerHeight - 40);
+  $("#igvNglTabs").height(window.innerHeight - 50);
+  $("#igvNglTabs").width(window.innerWidth - 50);
 
-  $("#nglTab").width($("#igvNglTabs").width() - 20);
-  $("#nglTab").height($("#igvNglTabs").height() - $(".ui-tabs-nav").height());
+  $("#nglTab").width($("#igvNglTabs").width() - 10);
+  var tabButtonsTopAllowance = $(".ui-tabs-nav").height() + 10;
+  $("#nglTab").height($("#igvNglTabs").height() - tabButtonsTopAllowance);
 
-  $("#nglOuterDiv").width(0.95 * $("#nglTab").width());
-  $("#nglOuterDiv").height(0.95 * $("#nglTab").height());
+  $("#nglOuterDiv").width(1.0 * $("#nglTab").width());
+  $("#nglOuterDiv").height($("#nglTab").height());
 
+  $("#nglViewport").width($("#nglOuterDiv").width() - 2);
+  $("#nglViewport").height($("#nglOuterDiv").height() - 2);
   // window.nglStage.handleResize();
 
   //window.nglStage.handleResize();
@@ -716,7 +719,7 @@ function displayPDB(msg)
    $('a[href="#nglTab"]').click();
 
    console.log("--- displayPDB");
-   $("#nglViewport").height($("#nglOuterDiv").width());
+   $("#nglViewport").height($("#nglOuterDiv").height());
 
    window.nglStage = new NGL.Stage("nglViewport");
    window.nglStage.handleResize();
