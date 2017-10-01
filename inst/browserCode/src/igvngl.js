@@ -1,5 +1,6 @@
 "use strict";
 var cytoscape = require('cytoscape');
+var NGL = require('ngl');
 import css from './css/igvngl.css';
 //----------------------------------------------------------------------------------------------------
 var IgvNgl = (function(hub){

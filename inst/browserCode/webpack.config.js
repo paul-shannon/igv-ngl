@@ -5,7 +5,8 @@ module.exports = {
   entry: './src/igvngl.js',
   plugins: [
     new webpack.ProvidePlugin({
-      cytoscape: "cytoscape"
+	cytoscape: "cytoscape",
+	ngl: "ngl"
       })],
   module: {
       rules:[

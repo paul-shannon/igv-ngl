@@ -5,7 +5,7 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="http://igv.org/web/release/1.0.9/igv-1.0.9.js"></script>
-  <script src='https://cdn.rawgit.com/arose/ngl/v0.10.3/dist/ngl.js'></script>
+  <!-- script src='https://cdn.rawgit.com/arose/ngl/v0.10.3/dist/ngl.js'></script-->
   <link rel="stylesheet" type="text/css" href="http://igv.org/web/release/1.0.9/igv-1.0.9.css">
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
 
