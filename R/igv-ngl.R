@@ -43,6 +43,10 @@ setGeneric('fit',                 signature='obj', function(obj, margin=50) stan
 setGeneric('fitSelected',         signature='obj', function(obj, margin=50) standardGeneric('fitSelected'))
 
 setGeneric('displayPDB',          signature='obj', function(obj, pdbID) standardGeneric('displayPDB'))
+setGeneric('addRep',              signature='obj', function(obj, style, selection) standardGeneric('addRep'))
+setGeneric('addDefaultRep',       signature='obj', function(obj) standardGeneric('addDefaultRep'))
+setGeneric('removeReps',          signature='obj', function(obj) standardGeneric('removeReps'))
+setGeneric('autoView',            signature='obj', function(obj, selection=list()) standardGeneric('autoView'))
 
 #----------------------------------------------------------------------------------------------------
 setMethod('buildMultiModelGraph', 'igvNgl',
@@ -351,6 +355,52 @@ setMethod('displayPDB', 'igvNgl',
   function (obj, pdbID) {
      payload <- pdbID
      send(obj, list(cmd="displayPDB", callback="handleResponse", status="request", payload=payload))
+     while (!browserResponseReady(obj)){
+        Sys.sleep(.1)
+        }
+     getBrowserResponse(obj);
+     })
+
+#----------------------------------------------------------------------------------------------------
+setMethod('addRep', 'igvNgl',
+
+  function (obj, style, selection) {
+     payload <- list(style=style, selection=selection)
+     send(obj, list(cmd="addRep", callback="handleResponse", status="request", payload=payload))
+     while (!browserResponseReady(obj)){
+        Sys.sleep(.1)
+        }
+     getBrowserResponse(obj);
+     })
+
+#----------------------------------------------------------------------------------------------------
+setMethod('addDefaultRep', 'igvNgl',
+
+  function (obj) {
+     payload <- ""
+     send(obj, list(cmd="addDefaultRep", callback="handleResponse", status="request", payload=payload))
+     while (!browserResponseReady(obj)){
+        Sys.sleep(.1)
+        }
+     getBrowserResponse(obj);
+     })
+
+#----------------------------------------------------------------------------------------------------
+setMethod('removeReps', 'igvNgl',
+
+  function (obj) {
+     send(obj, list(cmd="removeReps", callback="handleResponse", status="request", payload=""))
+     while (!browserResponseReady(obj)){
+        Sys.sleep(.1)
+        }
+     getBrowserResponse(obj);
+     })
+
+#----------------------------------------------------------------------------------------------------
+setMethod('autoView', 'igvNgl',
+
+  function (obj, selection=list()) {
+     send(obj, list(cmd="autoView", callback="handleResponse", status="request", payload=selection))
      while (!browserResponseReady(obj)){
         Sys.sleep(.1)
         }

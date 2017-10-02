@@ -17,6 +17,8 @@ runTests <- function()
   #testGraph()
   testLoadAndRemoveTracks()
 
+  demo_ngl()
+
   test_buildMultiModelGraph_oneModel_twoRandomScoresOnly()
   test_buildMultiModelGraph_oneModel_allScores()
 
@@ -179,6 +181,29 @@ testLoadAndRemoveTracks <- function()
 
 } # testLoadAndRemoveTracks
 #------------------------------------------------------------------------------------------------------------------------
+demo_ngl <- function()
+{
+   #displayPDB(tv, "3kvk")
+   displayPDB(tv, "1crn")
+
+   addRep(tv, "spacefill", list(sele="4-6"))
+   addRep(tv, "spacefill", list(sele="10-20", scale=1))
+   addRep(tv, "spacefill", list(sele="40-60", scale=3))
+   addRep(tv, "spacefill", list(sele="1-3", color="orange"))
+   addRep(tv, "cartoon",   list())
+
+   for(i in 1:3){
+     autoView(tv, ("1-3"))
+     autoView(tv)
+     autoView(tv, ("12"))
+     }
+
+   addDefaultRep(tv)
+
+   removeReps(tv)
+
+} # demo_ngl
+#----------------------------------------------------------------------------------------------------
 test_buildMultiModelGraph_oneModel <- function(display=FALSE)
 {
    printf("--- test_buildMultiModelGraph_oneModel")

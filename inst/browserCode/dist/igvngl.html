@@ -126069,7 +126069,11 @@ function addMessageHandlers()
 
    self.hub.addMessageHandler("addBedGraphTrackFromDataFrame",  addBedGraphTrackFromDataFrame.bind(self));
 
-   self.hub.addMessageHandler("displayPDB",  displayPDB.bind(self));
+   self.hub.addMessageHandler("displayPDB",     displayPDB.bind(self));
+   self.hub.addMessageHandler("addRep",         addRep.bind(self));
+   self.hub.addMessageHandler("addDefaultRep",  addDefaultRep.bind(self));
+   self.hub.addMessageHandler("removeReps",     removeReps.bind(self));
+   self.hub.addMessageHandler("autoView",       autoView.bind(self));
 
 } // addMessageHandlers
 //----------------------------------------------------------------------------------------------------
@@ -126740,15 +126744,17 @@ function displayPDB(msg)
 
    window.nglStage = new NGL.Stage("nglViewport");
    window.nglStage.handleResize();
+   self.nglStage = window.nglStage;
 
    console.log(msg.payload)
    var pdbID = msg.payload;
+   self.pdbID = pdbID;
 
    window.addEventListener( "resize", function(event){
      window.nglStage.handleResize();
      }, false );
 
-  function defaultStructureRepresentation( component ){
+  function initial_ngl_representation( component ){
      if( component.type !== "structure" ) return;
      component.addRepresentation( "cartoon", {
        aspectRatio: 3.0,
@@ -126770,7 +126776,7 @@ function displayPDB(msg)
    console.log("--- about to view " + pdbID);
    setTimeout(function(){
       window.nglStage.loadFile("rcsb://" + pdbID).then(function(component){
-        defaultStructureRepresentation(component);
+        initial_ngl_representation(component);
         component.autoView();
         console.log("after autoview");
         self.hub.send({cmd: msg.callback, status: "success", callback: "", payload: ""});
@@ -126778,6 +126784,108 @@ function displayPDB(msg)
    }, 100);
 
 } // displayPDB
+//----------------------------------------------------------------------------------------------------
+function addRep(msg)
+{
+   var self = this;
+   checkSignature(self, "addRep")
+   $('a[href="#nglTab"]').click();
+
+   var payload = msg.payload;
+   var style = payload.style;
+   var selection = payload.selection;
+
+   var component = window.nglStage.getComponentsByName(self.pdbID).list[0];
+   if(selection.length == 0){
+      component.addRepresentation(style);
+      }
+   else{
+      component.addRepresentation(style, selection);
+      }
+
+   self.hub.send({cmd: msg.callback, status: "success", callback: "", payload: ""});
+
+} // addRep
+//----------------------------------------------------------------------------------------------------
+function addDefaultRep(msg)
+{
+   var self = this;
+   checkSignature(self, "addDefaultRep")
+   $('a[href="#nglTab"]').click();
+
+   var component = window.nglStage.getComponentsByName(self.pdbID).list[0];
+   self.defaultStructureRepresentation(component);
+   component.autoView();
+
+   self.hub.send({cmd: msg.callback, status: "success", callback: "", payload: ""});
+
+} // addDefaultRep
+//----------------------------------------------------------------------------------------------------
+function removeReps(msg)
+{
+   var self = this;
+   checkSignature(self, "addRep")
+   var component = window.nglStage.getComponentsByName(self.pdbID).list[0];
+   component.removeAllRepresentations();
+
+   self.hub.send({cmd: msg.callback, status: "success", callback: "", payload: ""});
+
+} // removeReps
+//----------------------------------------------------------------------------------------------------
+function autoView(msg)
+{
+   var self = this;
+   checkSignature(self, "autoView")
+
+   var selection = msg.payload;
+
+   var component = window.nglStage.getComponentsByName(self.pdbID).list[0];
+   if(selection.length == 0){
+      component.autoView();  // the entire structur
+      }
+   else{
+      component.autoView(selection);
+      }
+
+   self.hub.send({cmd: msg.callback, status: "success", callback: "", payload: ""});
+
+} // autoView
+//----------------------------------------------------------------------------------------------------
+function defaultStructureRepresentation(nglComponent)
+{
+   console.log("---- entering defaultStructureRepresentation");
+   console.log(nglComponent);
+
+   if(nglComponent.type !== "structure"){
+	console.log("igvngl.js::defaultStructureRepresentation, arg is wrong type: ",
+		    typeof(nglComponent))
+	return;
+        }
+
+       // add three representations
+   debugger;
+   console.log("-- adding cartoon")
+   nglComponent.addRepresentation("cartoon", {
+     aspectRatio: 3.0,
+     scale: 1.5
+     });
+
+  console.log("-- adding water or ion spacefill")
+   nglComponent.addRepresentation("licorice", {
+     sele: "hetero and not ( water or ion )",
+     multipleBond: true
+     });
+
+  console.log("-- adding water or ion spacefill")
+  nglComponent.addRepresentation( "spacefill", {
+    sele: "water or ion",
+    scale: 0.5
+    });
+
+   console.log("---- leaving defaultStructureRepresentation")
+
+
+} // defaultStructureRepresentation
 //----------------------------------------------------------------------------------------------------
   return({
 
@@ -126788,6 +126896,7 @@ function displayPDB(msg)
     handleWindowResize: handleWindowResize.bind(this),
     initializeTrnCytoscape: initializeTrnCytoscape,
     nextCyModel: nextCyModel.bind(this),
+    defaultStructureRepresentation: defaultStructureRepresentation.bind(this),
     hub: hub,
     cyjs: null,
     igvBrowser: null,

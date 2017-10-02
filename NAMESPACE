@@ -20,7 +20,11 @@ exportMethods (
    addBedTrackFromDataFrame,
    addBedTrackFromHostedFile,
    addBedGraphTrackFromDataFrame,
-   displayPDB
+   displayPDB,
+   addRep,
+   addDefaultRep,
+   removeReps,
+   autoView
    )
 
 export(
